@@ -7,11 +7,22 @@ use solana_program::{
     pubkey::Pubkey,
 };
 
+use crate::instruction::VaultInstruction;
+
 pub fn process_instruction( 
     _program_id: &Pubkey,
     _account: &[AccountInfo],
-    _instruction_data: &[u8],
+    instruction_data: &[u8],
 ) -> ProgramResult {
-    msg!(r#"Solana Raw Hello "{}""#);
+    let instruction = VaultInstruction::unpack(instruction_data)?;
+
+    match instruction {
+        VaultInstruction::Initialize => {
+            msg!("Instruction: Initialise");
+        },
+        VaultInstruction::Ping => {
+            msg!("Instruction: Ping");
+        }
+    }
     Ok(())
 }
