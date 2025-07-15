@@ -16,6 +16,21 @@ pub fn process_instruction(
     match instruction {
         VaultInstruction::Initialize => {
             msg!("Instruction: Initialise");
+            let account_info_iter = &mut account.iter();
+            let state_account = next_account_info(account_info_iter)?;
+
+            if program_id != state_account.owner {
+                msg!("Program do not own the account");
+                return Err(ProgramError::IncorrectProgramId);
+            }
+
+            let state = VaultState{
+                initialized: true,
+                counter: 0,
+            };
+
+            let mut data = state_account.data.borrow_mut();
+            state.serialize(&mut &mut data.as_mut())?;
         }
         VaultInstruction::Ping => {
             msg!("Instruction: Ping");
