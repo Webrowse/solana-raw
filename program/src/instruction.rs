@@ -3,7 +3,7 @@ use solana_program::program_error::ProgramError;
 
 pub enum VaultInstruction {
     Initialize,
-    Ping,
+    Increment,
 }
 
 impl VaultInstruction {
@@ -12,7 +12,7 @@ impl VaultInstruction {
 
         match tag {
             0 => Ok(VaultInstruction::Initialize),
-            1 => Ok(VaultInstruction::Ping),
+            1 => Ok(VaultInstruction::Increment),
             _ => Err(ProgramError::InvalidInstructionData),
         }
     }
